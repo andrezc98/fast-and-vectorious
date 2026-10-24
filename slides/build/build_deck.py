@@ -961,14 +961,14 @@ text(s, 5.3, 1.35, 3.75, 2.6, [
     "1. Elige la base que crees que gana",
     "2. Mira la carrera",
     "3. Si acertaste, entras al sorteo",
-    "Un código por ronda, hasta repartir los 5",
-    [("Rondas de 4 preguntas · 5 códigos", {"color": "C9C2E8", "size": 12})],
+    "Un código por ronda, hasta repartir los 4",
+    [("1 código por ronda · 4 códigos", {"color": "C9C2E8", "size": 12})],
 ], size=15, color=WHITE, space=7)
 notes(s, "[28:30–35:30] Guion de ~7 min desde /admin; el botón grande siempre hace el paso siguiente y no se puede saltar ni "
          "elegir ronda. 1:00 para escanear y entrar («Pasar a modo sorteo»; en el piso −1 puede faltar señal: dar tiempo). Cada ronda "
-         "~1:15: «Abrir ronda N de 4» y apostar 0:30, «Cerrar apuestas y correr» y leer el resultado 0:20, «Sortear 1 código» entre "
+         "~1:15: «Abrir ronda N de 4» y apostar 0:30, «Cerrar apuestas y lanzar» y leer el resultado 0:20, «Sortear 1 código» entre "
          "quienes acertaron 0:25. Las rondas siguen el ciclo búsqueda simple → con filtro → con contexto (JOIN de Aurora) → otra "
-         "colección, y vuelven a empezar hasta repartir los 5 códigos: un código por ronda, nadie gana dos veces, el código solo "
+         "colección, y vuelven a empezar hasta repartir los 4 códigos: un código por ronda, nadie gana dos veces, el código solo "
          "aparece en el celular del ganador. Si nadie acierta, el código pasa a la ronda siguiente. Cuando no quedan códigos, el "
          "botón ofrece volver a modo libre. Si alguna base está apagada, su fila dice «despertando» y se completa sola con el tiempo "
          "real: comentarlo, es el arranque en frío en vivo. Antes de la charla, desde free-tier: event-ops.py reset y event-ops.py "

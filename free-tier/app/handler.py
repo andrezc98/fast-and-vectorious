@@ -472,7 +472,7 @@ def admin(ddb, br, qs: dict, body: str) -> dict:
         if not take_quota(ddb, COUNTER_TABLE, MAX_QUERIES):
             return {"error": "se acabó el cupo de consultas"}
         g["phase"] = "cerrada"
-        _put(ddb, "game", g)  # phones show "corriendo" while the race runs
+        _put(ddb, "game", g)  # phones show the race as started while the race runs
         scn = {"corpus": sc["corpus"], "attr": sc.get("attr"), "context": sc.get("context", False)}
         vec = embed(br, g["q"])
         t0 = time.time()
@@ -734,7 +734,7 @@ const drawn=d.ganadores.filter(w=>w.round===d.round);
 $('rkick').textContent='Sorteo de créditos AWS'+(inRound?` · Ronda ${(d.round-1)%4+1} de 4`:'');
 const H={'':['El sorteo empieza en un momento','Deja esta página abierta. En cada ronda eliges la base que crees que responde primero; si aciertas, entras al sorteo del código de esa ronda.'],
 abierta:['¿Qué base responde primero?',`<b>${esc(d.escenario.label)}.</b> ${esc(d.escenario.desc)}`],
-cerrada:['¡Corriendo! Mira la pantalla',mine?`Apostaste por <b>${SN(mine)}</b>.`:'No alcanzaste a apostar en esta ronda.'],
+cerrada:['¡Arrancó la carrera! Mira la pantalla',mine?`Apostaste por <b>${SN(mine)}</b>.`:'No alcanzaste a apostar en esta ronda.'],
 resultado:[d.gano?`Ganó ${SN(d.gano)}`:'Resultado',`<b>${esc(d.escenario.label)}.</b> ${esc(d.escenario.desc)}`]}[ph]||['Espera la próxima ronda',''];
 $('rhead').textContent=H[0];$('rsub').innerHTML=H[1];
 $('rq').hidden=!(inRound&&d.escenario.q);$('rq').textContent='Pregunta: “'+d.escenario.q+'”';
@@ -810,15 +810,15 @@ case 'open':return `Ronda ${s.round} abierta: ${s.escenario.label}`;
 case 'run':{const w=(s.carrera||[]).find(r=>r.store===s.gano);return s.gano?`Ganó ${ST[s.gano][0]} en ${ms(w.ms)} · ${s.apuestas[s.gano]} acertaron`:'Sin ganador: respondió una sola base'}
 case 'draw':return `🎉 Código para ${d.apodo} (entre ${d.pool}) · quedan ${d.quedan}`;
 case 'bots':return `🤖 ${d.bots} jugadores de prueba apostaron al azar`;case 'reset':return 'Sorteo reiniciado'}return ''}
-async function act(btn,params,body){const old=btn.textContent;busy++;btn.textContent=params.action==='run'?'Corriendo…':'…';document.querySelectorAll('button').forEach(b=>b.disabled=true);
+async function act(btn,params,body){const old=btn.textContent;busy++;btn.textContent=params.action==='run'?'Lanzando…':'…';document.querySelectorAll('button').forEach(b=>b.disabled=true);
 try{const d=await api(params,body);const t=msg(params.action,d);if(t)toast(t,!!d.error);return d}catch(e){toast('No se pudo: '+e.message,true)}
 finally{busy--;btn.textContent=old;if(last)show(last)}}
 // The script of the giveaway: what the big button does next, given the state. Rounds cycle through the 4 questions,
 // one code per round among the right guesses, until the codes run out.
 function next(s){const n=s.round||0,ph=s.phase||'',left=s.codigos_restantes,hits=s.gano?s.apuestas[s.gano]:0,drawn=s.ganadores.some(w=>w.round===n);
 if(s.mode!=='sorteo')return['Pasar a modo sorteo','Los celulares muestran «El sorteo empieza en un momento». Da un minuto para que escaneen el QR.',{action:'mode',to:'sorteo'}];
-if(ph==='abierta')return['Cerrar apuestas y correr','La misma pregunta va a las 4 bases. Si una estaba apagada, su fila se completa sola cuando despierta.',{action:'run'}];
-if(ph==='cerrada')return['Correr la carrera','',{action:'run'}];
+if(ph==='abierta')return['Cerrar apuestas y lanzar','La misma pregunta va a las 4 bases. Si una estaba apagada, su fila se completa sola cuando despierta.',{action:'run'}];
+if(ph==='cerrada')return['Lanzar la carrera','',{action:'run'}];
 if(ph==='resultado'&&!drawn&&hits>0&&left>0)return[`Sortear 1 código entre ${hits===1?'quien acertó':`los ${hits} que acertaron`}`,'Nadie gana dos veces.',{action:'draw'}];
 if(left===0)return['Terminar: volver a modo libre','Se repartieron todos los códigos.',{action:'mode',to:'libre'}];
 const k=n%4,why=ph==='resultado'&&!drawn?'Nadie acertó: el código queda para la próxima ronda. ':'';
@@ -828,7 +828,7 @@ $('rnd').textContent=s.mode!=='sorteo'?'Modo libre':inRound?`Ronda ${(n-1)%4+1} 
 $('lbl').textContent=inRound?`${s.escenario.label}: ${s.escenario.desc}`:'';$('q').textContent=inRound&&s.escenario.q?'“'+s.escenario.q+'”':'';
 const total=Object.values(s.apuestas).reduce((a,b)=>a+b,0),w=(s.carrera||[]).find(r=>r.store===s.gano);
 $('phase').innerHTML=s.mode!=='sorteo'?'Modo libre: la sala busca lo que quiera':{'':'Escanea el QR y entra: el sorteo empieza en un momento',
-abierta:`¡Apuesten! ¿Qué base responde primero? · ${total} ${total===1?'apuesta':'apuestas'}`,cerrada:'Apuestas cerradas. ¡Corriendo!',
+abierta:`¡Apuesten! ¿Qué base responde primero? · ${total} ${total===1?'apuesta':'apuestas'}`,cerrada:'Apuestas cerradas. ¡Arrancó la carrera!',
 resultado:s.gano?`Ganó <span class="win">${ST[s.gano][0]}</span> en ${ms(w.ms)} · ${s.apuestas[s.gano]} acertaron`+(s.despertando?' <span class="muted">· esperando a las que estaban apagadas…</span>':''):'Resultado'}[ph];
 const res=ph==='resultado'&&s.carrera,oks=res?s.carrera.filter(r=>r.estado==='ok'):[],max=res?Math.max(...oks.map(r=>r.ms),1):Math.max(...Object.values(s.apuestas),1);
 $('rows').innerHTML=ph==='abierta'||res?Object.keys(ST).map(k=>{const r=res?s.carrera.find(x=>x.store===k)||{}:null,v=res?(r.estado==='ok'?r.ms:0):s.apuestas[k];

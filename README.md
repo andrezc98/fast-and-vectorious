@@ -5,7 +5,7 @@ misma colección de embeddings en DynamoDB, S3 Vectors, OpenSearch Serverless y
 Aurora PostgreSQL (pgvector) y mide latencia, recall y costo con las mismas
 consultas.
 
-> Estado: runner e infraestructura listos; corridas del laboratorio el 10 y 11 de octubre de 2026.
+> Estado: mediciones del laboratorio ejecutadas el 8 y 9 de octubre de 2026.
 > Fuente de cada afirmación de la charla: `docs/claims.md`
 
 ## Evento
