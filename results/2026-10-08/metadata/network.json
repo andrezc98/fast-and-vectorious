@@ -1,0 +1,41 @@
+{
+  "vpc_endpoints": [
+    {
+      "ServiceName": "com.amazonaws.us-east-1.dynamodb",
+      "VpcEndpointType": "Gateway",
+      "PrivateDnsEnabled": false,
+      "State": "available"
+    },
+    {
+      "ServiceName": "com.amazonaws.us-east-1.s3",
+      "VpcEndpointType": "Gateway",
+      "PrivateDnsEnabled": false,
+      "State": "available"
+    },
+    {
+      "ServiceName": "com.amazonaws.us-east-1.s3vectors",
+      "VpcEndpointType": "Interface",
+      "PrivateDnsEnabled": true,
+      "State": "available"
+    },
+    {
+      "ServiceName": "com.amazonaws.us-east-1.aoss-data",
+      "VpcEndpointType": "Interface",
+      "PrivateDnsEnabled": true,
+      "State": "available"
+    }
+  ],
+  "runner": [
+    {
+      "InstanceType": "m7g.2xlarge",
+      "Architecture": "arm64",
+      "Placement": {
+        "AvailabilityZoneId": "use1-az6",
+        "GroupName": "",
+        "Tenancy": "default",
+        "AvailabilityZone": "us-east-1a"
+      },
+      "PlatformDetails": "Linux/UNIX"
+    }
+  ]
+}

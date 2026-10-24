@@ -1,0 +1,22 @@
+[
+  {
+    "Engine": "aurora-postgresql",
+    "EngineVersion": "17.11",
+    "EngineMode": "provisioned",
+    "ServerlessV2ScalingConfiguration": {
+      "MinCapacity": 0.0,
+      "MaxCapacity": 8.0,
+      "SecondsUntilAutoPause": 600
+    },
+    "StorageEncrypted": true,
+    "StorageType": null,
+    "DBClusterMembers": [
+      {
+        "DBInstanceIdentifier": "fv-aurora-1",
+        "IsClusterWriter": true,
+        "DBClusterParameterGroupStatus": "in-sync",
+        "PromotionTier": 0
+      }
+    ]
+  }
+]

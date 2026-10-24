@@ -1,0 +1,103 @@
+2026-10-09T05:13:03Z GRID order (seed 20261009): [('ley', 's3v', 'filter'), ('so', 'ddb', 'plain'), ('ley', 'aoss', 'plain'), ('ley', 's3v', 'join'), ('so', 'aoss', 'join'), ('so', 's3v', 'plain'), ('ley', 'ddb', 'filter'), ('so', 'aurora', 'plain'), ('so', 's3v', 'join'), ('so', 'aurora', 'join'), ('ley', 'aoss', 'join'), ('ley', 'ddb', 'plain'), ('ley', 'aoss', 'filter'), ('ley', 's3v', 'plain'), ('so', 'ddb', 'filter'), ('so', 'aoss', 'filter'), ('ley', 'aurora', 'join'), ('ley', 'aurora', 'filter'), ('so', 'ddb', 'join'), ('so', 'aurora', 'filter'), ('so', 's3v', 'filter'), ('ley', 'ddb', 'join'), ('so', 'aoss', 'plain'), ('ley', 'aurora', 'plain')]
+2026-10-09T05:14:11Z fv bench --store s3v --corpus ley --model cohere --case plain --reps 1 --tag warmup exit=0 69s 
+2026-10-09T05:14:11Z RUN start s3v ley filter
+2026-10-09T05:17:22Z fv bench --store s3v --corpus ley --model cohere --case filter --reps 3 exit=0 191s 
+2026-10-09T05:17:22Z RUN end s3v ley filter
+2026-10-09T05:17:37Z fv bench --store ddb --corpus so --model cohere --case plain --reps 1 --tag warmup exit=0 15s 
+2026-10-09T05:17:37Z RUN start ddb so plain
+2026-10-09T05:18:16Z fv bench --store ddb --corpus so --model cohere --case plain --reps 3 exit=0 40s 
+2026-10-09T05:18:16Z RUN end ddb so plain
+2026-10-09T05:19:08Z fv bench --store aoss --corpus ley --model cohere --case plain --reps 1 --tag warmup exit=0 52s 
+2026-10-09T05:19:08Z RUN start aoss ley plain
+2026-10-09T05:20:39Z fv bench --store aoss --corpus ley --model cohere --case plain --reps 3 exit=0 91s 
+2026-10-09T05:20:39Z RUN end aoss ley plain
+2026-10-09T05:20:39Z RUN start s3v ley join
+2026-10-09T05:24:02Z fv bench --store s3v --corpus ley --model cohere --case join --reps 3 exit=0 203s 
+2026-10-09T05:24:02Z RUN end s3v ley join
+2026-10-09T05:24:46Z fv bench --store aoss --corpus so --model cohere --case plain --reps 1 --tag warmup exit=0 44s 
+2026-10-09T05:24:46Z RUN start aoss so join
+2026-10-09T05:26:37Z fv bench --store aoss --corpus so --model cohere --case join --reps 3 exit=0 111s 
+2026-10-09T05:26:37Z RUN end aoss so join
+2026-10-09T05:27:43Z fv bench --store s3v --corpus so --model cohere --case plain --reps 1 --tag warmup exit=0 66s 
+2026-10-09T05:27:43Z RUN start s3v so plain
+2026-10-09T05:30:53Z fv bench --store s3v --corpus so --model cohere --case plain --reps 3 exit=0 190s 
+2026-10-09T05:30:53Z RUN end s3v so plain
+2026-10-09T05:31:04Z fv bench --store ddb --corpus ley --model cohere --case plain --reps 1 --tag warmup exit=0 11s 
+2026-10-09T05:31:04Z RUN start ddb ley filter
+2026-10-09T05:31:42Z fv bench --store ddb --corpus ley --model cohere --case filter --reps 3 exit=0 38s 
+2026-10-09T05:31:42Z RUN end ddb ley filter
+2026-10-09T05:34:07Z fv bench --store aurora --corpus so --model cohere --case plain --reps 1 --tag warmup exit=0 146s 
+2026-10-09T05:34:07Z RUN start aurora so plain
+2026-10-09T05:34:13Z fv bench --store aurora --corpus so --model cohere --case plain --reps 3 exit=0 5s 
+2026-10-09T05:34:13Z RUN end aurora so plain
+2026-10-09T05:34:13Z RUN start s3v so join
+2026-10-09T05:37:37Z fv bench --store s3v --corpus so --model cohere --case join --reps 3 exit=0 205s 
+2026-10-09T05:37:37Z RUN end s3v so join
+2026-10-09T05:37:37Z RUN start aurora so join
+2026-10-09T05:37:44Z fv bench --store aurora --corpus so --model cohere --case join --reps 3 exit=0 7s 
+2026-10-09T05:37:44Z RUN end aurora so join
+2026-10-09T05:37:44Z RUN start aoss ley join
+2026-10-09T05:39:48Z fv bench --store aoss --corpus ley --model cohere --case join --reps 3 exit=0 124s 
+2026-10-09T05:39:48Z RUN end aoss ley join
+2026-10-09T05:39:48Z RUN start ddb ley plain
+2026-10-09T05:40:19Z fv bench --store ddb --corpus ley --model cohere --case plain --reps 3 exit=0 31s 
+2026-10-09T05:40:19Z RUN end ddb ley plain
+2026-10-09T05:40:19Z RUN start aoss ley filter
+2026-10-09T05:41:36Z fv bench --store aoss --corpus ley --model cohere --case filter --reps 3 exit=0 78s 
+2026-10-09T05:41:36Z RUN end aoss ley filter
+2026-10-09T05:41:36Z RUN start s3v ley plain
+2026-10-09T05:44:47Z fv bench --store s3v --corpus ley --model cohere --case plain --reps 3 exit=0 191s 
+2026-10-09T05:44:47Z RUN end s3v ley plain
+2026-10-09T05:44:47Z RUN start ddb so filter
+2026-10-09T05:45:56Z fv bench --store ddb --corpus so --model cohere --case filter --reps 3 exit=0 69s 
+2026-10-09T05:45:56Z RUN end ddb so filter
+2026-10-09T05:45:56Z RUN start aoss so filter
+2026-10-09T05:47:55Z fv bench --store aoss --corpus so --model cohere --case filter --reps 3 exit=0 119s 
+2026-10-09T05:47:55Z RUN end aoss so filter
+2026-10-09T05:48:10Z fv bench --store aurora --corpus ley --model cohere --case plain --reps 1 --tag warmup exit=0 15s 
+2026-10-09T05:48:10Z RUN start aurora ley join
+2026-10-09T05:48:14Z fv bench --store aurora --corpus ley --model cohere --case join --reps 3 exit=0 4s 
+2026-10-09T05:48:14Z RUN end aurora ley join
+2026-10-09T05:48:14Z RUN start aurora ley filter
+2026-10-09T05:48:36Z fv bench --store aurora --corpus ley --model cohere --case filter --reps 3 exit=0 22s 
+2026-10-09T05:48:36Z RUN end aurora ley filter
+2026-10-09T05:48:36Z RUN start ddb so join
+2026-10-09T05:49:33Z fv bench --store ddb --corpus so --model cohere --case join --reps 3 exit=0 58s 
+2026-10-09T05:49:33Z RUN end ddb so join
+2026-10-09T05:49:33Z RUN start aurora so filter
+2026-10-09T05:52:25Z fv bench --store aurora --corpus so --model cohere --case filter --reps 3 exit=0 172s 
+2026-10-09T05:52:25Z RUN end aurora so filter
+2026-10-09T05:52:25Z RUN start s3v so filter
+2026-10-09T05:55:36Z fv bench --store s3v --corpus so --model cohere --case filter --reps 3 exit=0 192s 
+2026-10-09T05:55:36Z RUN end s3v so filter
+2026-10-09T05:55:36Z RUN start ddb ley join
+2026-10-09T05:56:18Z fv bench --store ddb --corpus ley --model cohere --case join --reps 3 exit=0 41s 
+2026-10-09T05:56:18Z RUN end ddb ley join
+2026-10-09T05:56:18Z RUN start aoss so plain
+2026-10-09T05:58:04Z fv bench --store aoss --corpus so --model cohere --case plain --reps 3 exit=0 106s 
+2026-10-09T05:58:04Z RUN end aoss so plain
+2026-10-09T05:58:04Z RUN start aurora ley plain
+2026-10-09T05:58:07Z fv bench --store aurora --corpus ley --model cohere --case plain --reps 3 exit=0 4s 
+2026-10-09T05:58:07Z RUN end aurora ley plain
+2026-10-09T05:58:07Z EF start 100 plain
+2026-10-09T05:59:50Z fv bench --store aurora --corpus so --model cohere --case plain --reps 3 --tag ef100 exit=0 102s 
+2026-10-09T05:59:50Z EF end 100 plain
+2026-10-09T05:59:50Z EF start 100 filter
+2026-10-09T06:01:48Z fv bench --store aurora --corpus so --model cohere --case filter --reps 3 --tag ef100 exit=0 119s 
+2026-10-09T06:01:48Z EF end 100 filter
+2026-10-09T06:01:48Z EF start 200 plain
+2026-10-09T06:01:59Z fv bench --store aurora --corpus so --model cohere --case plain --reps 3 --tag ef200 exit=0 11s 
+2026-10-09T06:01:59Z EF end 200 plain
+2026-10-09T06:01:59Z EF start 200 filter
+2026-10-09T06:03:57Z fv bench --store aurora --corpus so --model cohere --case filter --reps 3 --tag ef200 exit=0 118s 
+2026-10-09T06:03:57Z EF end 200 filter
+2026-10-09T06:07:05Z EXPLAIN saved {'q0-plain-attr=': '  ->  Index Scan using so_cohere_chunks_hnsw on so_cohere_chunks  (cost=2755.00..406164.00 rows=100000 width=30) (actual', 'q0-filter-attr=javascript': '        ->  Bitmap Heap Scan on so_cohere_chunks  (cost=209.96..1524.16 rows=18280 width=30) (actual time=0.411..81.447 ', 'q1-plain-attr=': '  ->  Index Scan using so_cohere_chunks_hnsw on so_cohere_chunks  (cost=2755.00..406164.00 rows=100000 width=30) (actual', 'q1-filter-attr=asp.net': '        ->  Bitmap Heap Scan on so_cohere_chunks  (cost=6.39..622.72 rows=270 width=30) (actual time=0.041..1.469 rows=2', 'q2-plain-attr=': '  ->  Index Scan using so_cohere_chunks_hnsw on so_cohere_chunks  (cost=2755.00..406164.00 rows=100000 width=30) (actual', 'q2-filter-attr=r': '        ->  Bitmap Heap Scan on so_cohere_chunks  (cost=17.77..1128.59 rows=1223 width=30) (actual time=0.096..7.109 row'}
+2026-10-09T06:07:05Z PHASE DONE explain
+2026-10-09T06:07:20Z COLD idle start (no queries)
+2026-10-09T06:22:20Z COLD waiting, aurora ACU max(5m) = 1.5
+2026-10-09T06:23:20Z COLD aurora ACU max(5m) = 0.0
+2026-10-09T06:23:36Z COLD aurora {'connect_s': 12.52, 'first_three_queries_ms': [(1455.5, True), (1259.7, True), (1265.6, True)]}
+2026-10-09T06:24:03Z COLD aoss {'connect_s': 0.05, 'first_three_queries_ms': [(23180.4, True), (2686.3, True), (1082.2, True)]}
+2026-10-09T06:24:03Z COLD ddb {'connect_s': 0.01, 'first_three_queries_ms': [(76.9, True), (38.8, True), (31.8, True)]}
+2026-10-09T06:24:03Z COLD s3v {'connect_s': 0.0, 'first_three_queries_ms': [(88.6, True), (63.9, True), (67.3, True)]}
+2026-10-09T06:24:03Z PHASE DONE cold

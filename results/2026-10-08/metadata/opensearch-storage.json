@@ -1,0 +1,8 @@
+{
+  "StorageUsedInHot|IndexName=so-cohere,IndexId=*,CollectionName=fv-vec,CollectionId=*,ClientId=*": 838494029.0,
+  "StorageUsedInWarm|IndexName=ley-cohere,IndexId=*,CollectionName=fv-vec,CollectionId=*,ClientId=*": 0.0,
+  "StorageUsedInWarm|IndexName=so-cohere,IndexId=*,CollectionName=fv-vec,CollectionId=*,ClientId=*": 0.0,
+  "StorageUsedInWarm|CollectionName=fv-vec,CollectionId=*,ClientId=*": 0.0,
+  "StorageUsedInHot|IndexName=ley-cohere,IndexId=*,CollectionName=fv-vec,CollectionId=*,ClientId=*": 72699300.0,
+  "StorageUsedInHot|CollectionName=fv-vec,CollectionId=*,ClientId=*": 911193329.0
+}

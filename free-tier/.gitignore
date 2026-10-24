@@ -1,0 +1,16 @@
+build/
+.data/
+event.tfvars
+terraform/.terraform/
+terraform/*.tfstate*
+terraform/.terraform.lock.hcl
+event-bedrock/.terraform/
+event-bedrock/*.tfstate*
+event-bedrock/.terraform.lock.hcl
+event-bedrock/terraform.tfvars
+event-stores/.terraform/
+event-stores/*.tfstate*
+event-stores/.terraform.lock.hcl
+event-stores/apply.log
+event-stores/tfplan
+event-stores/*.log

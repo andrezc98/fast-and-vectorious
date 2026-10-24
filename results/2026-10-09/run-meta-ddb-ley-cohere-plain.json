@@ -1,0 +1,25 @@
+{
+  "DIM": 1024,
+  "K": 10,
+  "reps": 3,
+  "store": "ddb",
+  "corpus": "ley",
+  "model": "cohere",
+  "case": "plain",
+  "versions": {
+    "boto3": "1.43.109",
+    "botocore": "1.43.109",
+    "opensearch-py": "3.2.0",
+    "psycopg": "3.3.6",
+    "pgvector": "0.5.0",
+    "numpy": "2.5.3"
+  },
+  "knobs": {
+    "aoss_compression": "1x",
+    "s3v_filter_mode": "ENHANCED",
+    "pgvector_iterative_scan": "relaxed_order",
+    "pgvector_hnsw_m": 16,
+    "pgvector_hnsw_ef_construction": 64,
+    "pgvector_hnsw_ef_search": 40
+  }
+}

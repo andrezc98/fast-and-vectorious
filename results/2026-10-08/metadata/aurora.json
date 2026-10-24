@@ -1,0 +1,157 @@
+{
+  "version": [
+    [
+      "PostgreSQL 17.11 on aarch64-linux, compiled by gcc-10.5.0, 64-bit"
+    ]
+  ],
+  "extensions": [
+    [
+      "plpgsql",
+      "1.0"
+    ],
+    [
+      "vector",
+      "0.8.2"
+    ]
+  ],
+  "settings": [
+    [
+      "effective_cache_size",
+      "1304487",
+      "8kB"
+    ],
+    [
+      "maintenance_work_mem",
+      "260096",
+      "kB"
+    ],
+    [
+      "max_parallel_maintenance_workers",
+      "2",
+      null
+    ],
+    [
+      "shared_buffers",
+      "376832",
+      "8kB"
+    ],
+    [
+      "work_mem",
+      "4096",
+      "kB"
+    ]
+  ],
+  "relations": [
+    [
+      "ley_cohere_chunks",
+      "117 MB",
+      122978304,
+      8851
+    ],
+    [
+      "ley_cohere_chunks_attr",
+      "80 kB",
+      81920,
+      8851
+    ],
+    [
+      "ley_cohere_chunks_hnsw",
+      "69 MB",
+      72515584,
+      8851
+    ],
+    [
+      "ley_cohere_chunks_pkey",
+      "512 kB",
+      524288,
+      8851
+    ],
+    [
+      "ley_docs",
+      "32 kB",
+      32768,
+      -1
+    ],
+    [
+      "ley_docs_pkey",
+      "16 kB",
+      16384,
+      0
+    ],
+    [
+      "so_cohere_chunks",
+      "1322 MB",
+      1385701376,
+      100000
+    ],
+    [
+      "so_cohere_chunks_attr",
+      "720 kB",
+      737280,
+      100000
+    ],
+    [
+      "so_cohere_chunks_hnsw",
+      "781 MB",
+      819208192,
+      100000
+    ],
+    [
+      "so_cohere_chunks_pkey",
+      "4032 kB",
+      4128768,
+      100000
+    ],
+    [
+      "so_docs",
+      "11 MB",
+      12017664,
+      69402
+    ],
+    [
+      "so_docs_pkey",
+      "3616 kB",
+      3702784,
+      69402
+    ]
+  ],
+  "indexes": [
+    [
+      "ley_docs_pkey",
+      "CREATE UNIQUE INDEX ley_docs_pkey ON public.ley_docs USING btree (doc_id)"
+    ],
+    [
+      "ley_cohere_chunks_pkey",
+      "CREATE UNIQUE INDEX ley_cohere_chunks_pkey ON public.ley_cohere_chunks USING btree (id)"
+    ],
+    [
+      "ley_cohere_chunks_hnsw",
+      "CREATE INDEX ley_cohere_chunks_hnsw ON public.ley_cohere_chunks USING hnsw (v vector_cosine_ops) WITH (m='16', ef_construction='64')"
+    ],
+    [
+      "ley_cohere_chunks_attr",
+      "CREATE INDEX ley_cohere_chunks_attr ON public.ley_cohere_chunks USING btree (attr)"
+    ],
+    [
+      "so_docs_pkey",
+      "CREATE UNIQUE INDEX so_docs_pkey ON public.so_docs USING btree (doc_id)"
+    ],
+    [
+      "so_cohere_chunks_pkey",
+      "CREATE UNIQUE INDEX so_cohere_chunks_pkey ON public.so_cohere_chunks USING btree (id)"
+    ],
+    [
+      "so_cohere_chunks_hnsw",
+      "CREATE INDEX so_cohere_chunks_hnsw ON public.so_cohere_chunks USING hnsw (v vector_cosine_ops) WITH (m='16', ef_construction='64')"
+    ],
+    [
+      "so_cohere_chunks_attr",
+      "CREATE INDEX so_cohere_chunks_attr ON public.so_cohere_chunks USING btree (attr)"
+    ]
+  ],
+  "hnsw_session_defaults": {
+    "hnsw.ef_search": "40",
+    "hnsw.iterative_scan": "off",
+    "hnsw.max_scan_tuples": "20000"
+  }
+}

@@ -1,0 +1,68 @@
+== truth --corpus so --model cohere start 2026-10-08T20:40:13Z
+EXIT=0 [truth --corpus so --model cohere] end 2026-10-08T20:40:23Z
+== docs-load --corpus so start 2026-10-08T20:40:23Z
+EXIT=0 [docs-load --corpus so] end 2026-10-08T20:40:51Z
+== load --store ddb --corpus so --model cohere start 2026-10-08T20:40:51Z
+loaded ddb so cohere 100000
+EXIT=0 [load --store ddb --corpus so --model cohere] end 2026-10-08T20:55:08Z
+== load --store s3v --corpus so --model cohere start 2026-10-08T20:55:08Z
+loaded s3v so cohere 100000
+EXIT=0 [load --store s3v --corpus so --model cohere] end 2026-10-08T20:58:42Z
+== load --store aoss --corpus so --model cohere start 2026-10-08T20:58:42Z
+loaded aoss so cohere 100000
+EXIT=0 [load --store aoss --corpus so --model cohere] end 2026-10-08T21:05:58Z
+== load --store aurora --corpus so --model cohere start 2026-10-08T21:05:58Z
+Traceback (most recent call last):
+  File "/home/ec2-user/runner/.venv/bin/fv", line 10, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/ec2-user/runner/fv/cli.py", line 283, in main
+    a.fn(a)
+    ~~~~^^^
+  File "/home/ec2-user/runner/fv/cli.py", line 134, in cmd_load
+    st.build_index()
+    ~~~~~~~~~~~~~~^^
+  File "/home/ec2-user/runner/fv/stores/aurora.py", line 75, in build_index
+    self.conn.execute(sql)
+    ~~~~~~~~~~~~~~~~~^^^^^
+  File "/home/ec2-user/runner/.venv/lib/python3.14/site-packages/psycopg/connection.py", line 304, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.OutOfMemory: could not resize shared memory segment "/PostgreSQL.881380428" to 4291896512 bytes: Cannot allocate memory
+EXIT=1 [load --store aurora --corpus so --model cohere] end 2026-10-08T21:06:29Z
+== bench --store ddb --corpus so --model cohere --case plain --reps 3 start 2026-10-08T21:06:29Z
+/home/ec2-user/results/2026-10-08/bench-ddb-so-cohere-plain.csv
+EXIT=0 [bench --store ddb --corpus so --model cohere --case plain --reps 3] end 2026-10-08T21:07:10Z
+== bench --store ddb --corpus so --model cohere --case filter --reps 3 start 2026-10-08T21:07:10Z
+/home/ec2-user/results/2026-10-08/bench-ddb-so-cohere-filter.csv
+EXIT=0 [bench --store ddb --corpus so --model cohere --case filter --reps 3] end 2026-10-08T21:08:27Z
+== bench --store ddb --corpus so --model cohere --case join --reps 3 start 2026-10-08T21:08:27Z
+/home/ec2-user/results/2026-10-08/bench-ddb-so-cohere-join.csv
+EXIT=0 [bench --store ddb --corpus so --model cohere --case join --reps 3] end 2026-10-08T21:09:24Z
+== bench --store s3v --corpus so --model cohere --case plain --reps 3 start 2026-10-08T21:09:24Z
+/home/ec2-user/results/2026-10-08/bench-s3v-so-cohere-plain.csv
+EXIT=0 [bench --store s3v --corpus so --model cohere --case plain --reps 3] end 2026-10-08T21:13:01Z
+== bench --store s3v --corpus so --model cohere --case filter --reps 3 start 2026-10-08T21:13:01Z
+/home/ec2-user/results/2026-10-08/bench-s3v-so-cohere-filter.csv
+EXIT=0 [bench --store s3v --corpus so --model cohere --case filter --reps 3] end 2026-10-08T21:16:13Z
+== bench --store s3v --corpus so --model cohere --case join --reps 3 start 2026-10-08T21:16:13Z
+/home/ec2-user/results/2026-10-08/bench-s3v-so-cohere-join.csv
+EXIT=0 [bench --store s3v --corpus so --model cohere --case join --reps 3] end 2026-10-08T21:19:43Z
+== bench --store aoss --corpus so --model cohere --case plain --reps 3 start 2026-10-08T21:19:43Z
+/home/ec2-user/results/2026-10-08/bench-aoss-so-cohere-plain.csv
+EXIT=0 [bench --store aoss --corpus so --model cohere --case plain --reps 3] end 2026-10-08T21:22:08Z
+== bench --store aoss --corpus so --model cohere --case filter --reps 3 start 2026-10-08T21:22:08Z
+/home/ec2-user/results/2026-10-08/bench-aoss-so-cohere-filter.csv
+EXIT=0 [bench --store aoss --corpus so --model cohere --case filter --reps 3] end 2026-10-08T21:23:49Z
+== bench --store aoss --corpus so --model cohere --case join --reps 3 start 2026-10-08T21:23:49Z
+/home/ec2-user/results/2026-10-08/bench-aoss-so-cohere-join.csv
+EXIT=0 [bench --store aoss --corpus so --model cohere --case join --reps 3] end 2026-10-08T21:25:34Z
+== bench --store aurora --corpus so --model cohere --case plain --reps 3 start 2026-10-08T21:25:34Z
+/home/ec2-user/results/2026-10-08/bench-aurora-so-cohere-plain.csv
+EXIT=0 [bench --store aurora --corpus so --model cohere --case plain --reps 3] end 2026-10-08T21:28:41Z
+== bench --store aurora --corpus so --model cohere --case filter --reps 3 start 2026-10-08T21:28:41Z
+/home/ec2-user/results/2026-10-08/bench-aurora-so-cohere-filter.csv
+EXIT=0 [bench --store aurora --corpus so --model cohere --case filter --reps 3] end 2026-10-08T21:31:46Z
+== bench --store aurora --corpus so --model cohere --case join --reps 3 start 2026-10-08T21:31:46Z
+/home/ec2-user/results/2026-10-08/bench-aurora-so-cohere-join.csv
+EXIT=0 [bench --store aurora --corpus so --model cohere --case join --reps 3] end 2026-10-08T21:31:54Z
+ALLDONE

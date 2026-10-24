@@ -1,0 +1,106 @@
+{
+  "so-cohere": {
+    "index": "so-cohere",
+    "settings": {
+      "so-cohere": {
+        "settings": {
+          "index": {
+            "knn.remote_index_build": {
+              "enabled": "true"
+            },
+            "number_of_shards": "2",
+            "provided_name": "so-cohere",
+            "knn": "true",
+            "custom_doc_id_enabled": "true",
+            "number_of_replicas": "0",
+            "uuid": "<id>",
+            "version": {
+              "created": "137247827"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "so-cohere": {
+        "mappings": {
+          "properties": {
+            "attr": {
+              "type": "keyword"
+            },
+            "doc_id": {
+              "type": "keyword"
+            },
+            "v": {
+              "type": "knn_vector",
+              "dimension": 1024,
+              "compression_level": "1x",
+              "space_type": "cosinesimil"
+            }
+          }
+        }
+      }
+    },
+    "count": {
+      "count": 100000,
+      "_shards": {
+        "total": 0,
+        "successful": 0,
+        "skipped": 0,
+        "failed": 0
+      }
+    }
+  },
+  "ley-cohere": {
+    "index": "ley-cohere",
+    "settings": {
+      "ley-cohere": {
+        "settings": {
+          "index": {
+            "knn.remote_index_build": {
+              "enabled": "true"
+            },
+            "number_of_shards": "2",
+            "provided_name": "ley-cohere",
+            "knn": "true",
+            "custom_doc_id_enabled": "true",
+            "number_of_replicas": "0",
+            "uuid": "<id>",
+            "version": {
+              "created": "137247827"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "ley-cohere": {
+        "mappings": {
+          "properties": {
+            "attr": {
+              "type": "keyword"
+            },
+            "doc_id": {
+              "type": "keyword"
+            },
+            "v": {
+              "type": "knn_vector",
+              "dimension": 1024,
+              "compression_level": "1x",
+              "space_type": "cosinesimil"
+            }
+          }
+        }
+      }
+    },
+    "count": {
+      "count": 8851,
+      "_shards": {
+        "total": 0,
+        "successful": 0,
+        "skipped": 0,
+        "failed": 0
+      }
+    }
+  }
+}

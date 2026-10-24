@@ -1,0 +1,75 @@
+{
+  "collected_utc": "2026-10-09T06:24:03.958217Z",
+  "idle_min": 15,
+  "aurora_acu_before": 2.0,
+  "stores": {
+    "aurora": {
+      "connect_s": 12.52,
+      "first_three_queries_ms": [
+        [
+          1455.5,
+          true
+        ],
+        [
+          1259.7,
+          true
+        ],
+        [
+          1265.6,
+          true
+        ]
+      ]
+    },
+    "aoss": {
+      "connect_s": 0.05,
+      "first_three_queries_ms": [
+        [
+          23180.4,
+          true
+        ],
+        [
+          2686.3,
+          true
+        ],
+        [
+          1082.2,
+          true
+        ]
+      ]
+    },
+    "ddb": {
+      "connect_s": 0.01,
+      "first_three_queries_ms": [
+        [
+          76.9,
+          true
+        ],
+        [
+          38.8,
+          true
+        ],
+        [
+          31.8,
+          true
+        ]
+      ]
+    },
+    "s3v": {
+      "connect_s": 0.0,
+      "first_three_queries_ms": [
+        [
+          88.6,
+          true
+        ],
+        [
+          63.9,
+          true
+        ],
+        [
+          67.3,
+          true
+        ]
+      ]
+    }
+  }
+}

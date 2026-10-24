@@ -1,0 +1,61 @@
+# terraform (local state on purpose: one operator, short-lived lab; it carries account data)
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+.terraform.tfstate.lock.info
+terraform.tfvars
+infra/outputs.json
+
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# results: CSVs in results/<fecha>/ are committed; raw exports are not
+results/raw/
+
+# secrets / local
+.env
+.sanitize-extra
+.DS_Store
+
+# superpowers SDD scratch
+.superpowers/
+
+# office lock files
+~$*
+data/
+runner/data/
+
+# slide build scratch (unzipped template copies, intermediate decks, renders)
+slides/build/work/
+slides/build/stage1.pptx
+slides/build/photo.jpg
+slides/build/render/
+slides/template/unz/
+slides/template/*-thumbs*.jpg
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
+*.gate.lock*
+.beads/issues.jsonl
+slides/build/qr-event.png
+
+# speaker-only: agent tooling, planning docs, ops runbook (kept locally, not published)
+.agents/
+.beads/
+.claude/
+.codex/
+.cursor/
+AGENTS.md
+CLAUDE.md
+docs/cfp/
+docs/superpowers/
+runbooks/
+demo/sanitize-check.sh
+slides/build/deck.md
+slides/build/stage1 *.pptx

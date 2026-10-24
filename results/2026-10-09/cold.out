@@ -1,0 +1,15 @@
+/home/ec2-user/rerun.py:7: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  line = f"{dt.datetime.utcnow().isoformat(timespec='seconds')}Z " + " ".join(map(str, a)); print(line, flush=True); LOG.write(line + "\n"); LOG.flush()
+2026-10-09T06:07:20Z COLD idle start (no queries)
+2026-10-09T06:22:20Z COLD waiting, aurora ACU max(5m) = 1.5
+2026-10-09T06:23:20Z COLD aurora ACU max(5m) = 0.0
+2026-10-09T06:23:36Z COLD aurora {'connect_s': 12.52, 'first_three_queries_ms': [(1455.5, True), (1259.7, True), (1265.6, True)]}
+/home/ec2-user/rerun.py:7: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  line = f"{dt.datetime.utcnow().isoformat(timespec='seconds')}Z " + " ".join(map(str, a)); print(line, flush=True); LOG.write(line + "\n"); LOG.flush()
+2026-10-09T06:24:03Z COLD aoss {'connect_s': 0.05, 'first_three_queries_ms': [(23180.4, True), (2686.3, True), (1082.2, True)]}
+2026-10-09T06:24:03Z COLD ddb {'connect_s': 0.01, 'first_three_queries_ms': [(76.9, True), (38.8, True), (31.8, True)]}
+2026-10-09T06:24:03Z COLD s3v {'connect_s': 0.0, 'first_three_queries_ms': [(88.6, True), (63.9, True), (67.3, True)]}
+/home/ec2-user/rerun.py:74: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  json.dump({"collected_utc": dt.datetime.utcnow().isoformat() + "Z", "idle_min": 15, "aurora_acu_before": acu(), "stores": res},
+2026-10-09T06:24:03Z PHASE DONE cold
+EXIT=0

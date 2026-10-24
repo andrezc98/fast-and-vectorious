@@ -1,0 +1,29 @@
+[project]
+name = "fv-runner"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3>=1.43.106",      # s3vectors queryMode/prefilter (api-notes §2); DynamoDB search_vectors needs >=1.43.64
+    "numpy>=2.3",
+    "opensearch-py>=3.2.0",
+    "psycopg[binary]>=3.2",
+    "pgvector>=0.4",
+    "defusedxml>=0.7",     # dump and BCN XML are external input (XXE / entity expansion)
+]
+
+[dependency-groups]
+dev = ["pytest>=9.1.1"]
+
+[project.scripts]
+fv = "fv.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

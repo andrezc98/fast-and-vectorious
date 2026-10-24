@@ -1,0 +1,51 @@
+{
+  "collection": [
+    {
+      "id": "<id>",
+      "name": "fv-vec",
+      "status": "ACTIVE",
+      "type": "VECTORSEARCH",
+      "arn": "<arn>",
+      "kmsKeyArn": "<id>",
+      "standbyReplicas": "ENABLED",
+      "deletionProtection": "DISABLED",
+      "vectorOptions": {
+        "ServerlessVectorAcceleration": "ENABLED"
+      },
+      "createdDate": 1791483093638,
+      "lastModifiedDate": 1791483098710,
+      "collectionEndpoint": "https://<aoss-endpoint>",
+      "fipsEndpoints": {
+        "collectionEndpoint": "https://<aoss-endpoint>"
+      },
+      "collectionGroupName": "fv-group"
+    }
+  ],
+  "group": [
+    {
+      "id": "<id>",
+      "arn": "<arn>",
+      "name": "fv-group",
+      "standbyReplicas": "ENABLED",
+      "createdDate": 1791482564469,
+      "capacityLimits": {
+        "maxIndexingCapacityInOCU": 4.0,
+        "maxSearchCapacityInOCU": 4.0,
+        "minIndexingCapacityInOCU": 0.0,
+        "minSearchCapacityInOCU": 0.0
+      },
+      "currentCapacity": {
+        "search": {
+          "capacityInOcu": 2.0,
+          "autoscalingStatus": "NO_ACTION"
+        },
+        "indexing": {
+          "capacityInOcu": 0.0,
+          "autoscalingStatus": "NO_ACTION"
+        }
+      },
+      "numberOfCollections": 1,
+      "generation": "NEXTGEN"
+    }
+  ]
+}

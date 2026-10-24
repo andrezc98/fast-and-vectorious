@@ -1,0 +1,103 @@
+{
+  "bucket": {
+    "ResponseMetadata": {
+      "RequestId": "1c8ae53c-9b39-8436-a259-b250dcc3639b",
+      "HostId": "",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "date": "Fri, 09 Oct 2026 03:27:28 GMT",
+        "content-type": "application/json",
+        "content-length": "258",
+        "connection": "keep-alive",
+        "x-amz-request-id": "1c8ae53c-9b39-8436-a259-b250dcc3639b",
+        "access-control-allow-origin": "*",
+        "vary": "origin, access-control-request-method, access-control-request-headers",
+        "access-control-expose-headers": "*"
+      },
+      "RetryAttempts": 0
+    },
+    "vectorBucket": {
+      "vectorBucketName": "fv-vectors-<suffix>",
+      "vectorBucketArn": "<arn>",
+      "creationTime": "2026-10-08 18:02:44+00:00",
+      "encryptionConfiguration": {
+        "sseType": "AES256"
+      },
+      "defaultIndexMode": "ENHANCED"
+    }
+  },
+  "indexes": {
+    "so-cohere": {
+      "ResponseMetadata": {
+        "RequestId": "1a7d3b7d-cb3c-8ef4-b414-a6bee56c2c63",
+        "HostId": "",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "date": "Fri, 09 Oct 2026 03:27:28 GMT",
+          "content-type": "application/json",
+          "content-length": "406",
+          "connection": "keep-alive",
+          "x-amz-request-id": "1a7d3b7d-cb3c-8ef4-b414-a6bee56c2c63",
+          "access-control-allow-origin": "*",
+          "vary": "origin, access-control-request-method, access-control-request-headers",
+          "access-control-expose-headers": "*"
+        },
+        "RetryAttempts": 0
+      },
+      "index": {
+        "vectorBucketName": "fv-vectors-<suffix>",
+        "indexName": "so-cohere",
+        "indexArn": "<arn>",
+        "creationTime": "2026-10-08 18:02:44+00:00",
+        "dataType": "float32",
+        "dimension": 1024,
+        "distanceMetric": "cosine",
+        "metadataConfiguration": {
+          "nonFilterableMetadataKeys": [
+            "doc_id"
+          ]
+        },
+        "encryptionConfiguration": {
+          "sseType": "AES256"
+        },
+        "indexMode": "ENHANCED"
+      }
+    },
+    "ley-cohere": {
+      "ResponseMetadata": {
+        "RequestId": "10d9f84d-0530-8478-a366-ff1bef9492d7",
+        "HostId": "",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "date": "Fri, 09 Oct 2026 03:27:28 GMT",
+          "content-type": "application/json",
+          "content-length": "408",
+          "connection": "keep-alive",
+          "x-amz-request-id": "10d9f84d-0530-8478-a366-ff1bef9492d7",
+          "access-control-allow-origin": "*",
+          "vary": "origin, access-control-request-method, access-control-request-headers",
+          "access-control-expose-headers": "*"
+        },
+        "RetryAttempts": 0
+      },
+      "index": {
+        "vectorBucketName": "fv-vectors-<suffix>",
+        "indexName": "ley-cohere",
+        "indexArn": "<arn>",
+        "creationTime": "2026-10-08 18:02:44+00:00",
+        "dataType": "float32",
+        "dimension": 1024,
+        "distanceMetric": "cosine",
+        "metadataConfiguration": {
+          "nonFilterableMetadataKeys": [
+            "doc_id"
+          ]
+        },
+        "encryptionConfiguration": {
+          "sseType": "AES256"
+        },
+        "indexMode": "ENHANCED"
+      }
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "fv-vec-so-cohere": {
+    "AttributeDefinitions": [
+      {
+        "AttributeName": "attr",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "id",
+        "AttributeType": "S"
+      }
+    ],
+    "TableName": "fv-vec-so-cohere",
+    "KeySchema": [
+      {
+        "AttributeName": "id",
+        "KeyType": "HASH"
+      }
+    ],
+    "TableStatus": "ACTIVE",
+    "CreationDateTime": "2026-10-08 20:40:52.684000+00:00",
+    "ProvisionedThroughput": {
+      "NumberOfDecreasesToday": 0,
+      "ReadCapacityUnits": 0,
+      "WriteCapacityUnits": 0
+    },
+    "TableSizeBytes": 413617698,
+    "ItemCount": 100000,
+    "TableArn": "<arn>",
+    "TableId": "<id>",
+    "BillingModeSummary": {
+      "BillingMode": "PAY_PER_REQUEST",
+      "LastUpdateToPayPerRequestDateTime": "2026-10-08 20:40:52.684000+00:00"
+    },
+    "DeletionProtectionEnabled": false,
+    "WarmThroughput": {
+      "ReadUnitsPerSecond": 12000,
+      "WriteUnitsPerSecond": 4000,
+      "Status": "ACTIVE"
+    },
+    "VectorIndexes": [
+      {
+        "IndexName": "vec",
+        "SearchSchema": [
+          {
+            "AttributeName": "attr",
+            "SearchSchemaElementType": "INLINE_FILTER"
+          }
+        ],
+        "Projection": {
+          "ProjectionType": "ALL"
+        },
+        "VectorAttribute": {
+          "AttributeName": "v"
+        },
+        "Dimensions": 1024,
+        "DistanceFunction": "COSINE",
+        "IndexStatus": "ACTIVE",
+        "IndexSizeBytes": 413617698,
+        "ItemCount": 100000,
+        "IndexArn": "<arn>"
+      }
+    ]
+  },
+  "fv-vec-ley-cohere": {
+    "AttributeDefinitions": [
+      {
+        "AttributeName": "attr",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "id",
+        "AttributeType": "S"
+      }
+    ],
+    "TableName": "fv-vec-ley-cohere",
+    "KeySchema": [
+      {
+        "AttributeName": "id",
+        "KeyType": "HASH"
+      }
+    ],
+    "TableStatus": "ACTIVE",
+    "CreationDateTime": "2026-10-08 19:24:03.571000+00:00",
+    "ProvisionedThroughput": {
+      "NumberOfDecreasesToday": 0,
+      "ReadCapacityUnits": 0,
+      "WriteCapacityUnits": 0
+    },
+    "TableSizeBytes": 36727993,
+    "ItemCount": 8851,
+    "TableArn": "<arn>",
+    "TableId": "<id>",
+    "BillingModeSummary": {
+      "BillingMode": "PAY_PER_REQUEST",
+      "LastUpdateToPayPerRequestDateTime": "2026-10-08 19:24:03.571000+00:00"
+    },
+    "DeletionProtectionEnabled": false,
+    "WarmThroughput": {
+      "ReadUnitsPerSecond": 12000,
+      "WriteUnitsPerSecond": 4000,
+      "Status": "ACTIVE"
+    },
+    "VectorIndexes": [
+      {
+        "IndexName": "vec",
+        "SearchSchema": [
+          {
+            "AttributeName": "attr",
+            "SearchSchemaElementType": "INLINE_FILTER"
+          }
+        ],
+        "Projection": {
+          "ProjectionType": "ALL"
+        },
+        "VectorAttribute": {
+          "AttributeName": "v"
+        },
+        "Dimensions": 1024,
+        "DistanceFunction": "COSINE",
+        "IndexStatus": "ACTIVE",
+        "IndexSizeBytes": 36727993,
+        "ItemCount": 8851,
+        "IndexArn": "<arn>"
+      }
+    ]
+  },
+  "fv-docs": {
+    "AttributeDefinitions": [
+      {
+        "AttributeName": "doc_id",
+        "AttributeType": "S"
+      }
+    ],
+    "TableName": "fv-docs",
+    "KeySchema": [
+      {
+        "AttributeName": "doc_id",
+        "KeyType": "HASH"
+      }
+    ],
+    "TableStatus": "ACTIVE",
+    "CreationDateTime": "2026-10-08 18:02:44.379000+00:00",
+    "ProvisionedThroughput": {
+      "NumberOfDecreasesToday": 0,
+      "ReadCapacityUnits": 0,
+      "WriteCapacityUnits": 0
+    },
+    "TableSizeBytes": 6984820,
+    "ItemCount": 69413,
+    "TableArn": "<arn>",
+    "TableId": "<id>",
+    "BillingModeSummary": {
+      "BillingMode": "PAY_PER_REQUEST",
+      "LastUpdateToPayPerRequestDateTime": "2026-10-08 18:02:44.379000+00:00"
+    },
+    "DeletionProtectionEnabled": false,
+    "WarmThroughput": {
+      "ReadUnitsPerSecond": 12000,
+      "WriteUnitsPerSecond": 4000,
+      "Status": "ACTIVE"
+    }
+  }
+}

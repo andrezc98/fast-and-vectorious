@@ -1,0 +1,5 @@
+# Copy to event.tfvars (git-ignored). Needs CLOUDFLARE_API_TOKEN (Zone:DNS:Edit on the zone) in the environment.
+event_hostname     = "scd2026.builtbyandres.com"
+cloudflare_zone_id = "<zone id from the Cloudflare dashboard>"
+event_code         = "<short code shown on the slide>"
+max_queries        = 500

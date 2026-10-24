@@ -1,0 +1,117 @@
+# Terraform for infra/ with no stored credentials: the job assumes fv-gha through
+# GitHub's OIDC provider, state in the S3 bucket from infra/bootstrap/. Adapted
+# from ../redshift-redemption.
+#
+# Manual dispatch only, never on push: an apply starts billing Aurora, OpenSearch
+# and the EC2 runner.
+# Dispatching apply/destroy is the operator's go-ahead.
+#
+# Action tags verified 2026-10-05 (GitHub releases API): actions/checkout v7
+# (v7.0.1), aws-actions/configure-aws-credentials v6 (v6.3.0),
+# hashicorp/setup-terraform v4 (v4.0.1), actions/upload-artifact v7 (v7.0.1).
+name: infra
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "plan reads only; apply/destroy run with -auto-approve (this dispatch is the gate)"
+        type: choice
+        required: true
+        default: plan
+        options: [plan, apply, destroy]
+      vector_models:
+        description: 'JSON list of embedding models with S3 Vectors indexes, e.g. ["cohere"] (the bake-off winner)'
+        type: string
+        default: '["cohere"]'
+      runner_enabled:
+        description: "EC2 runner exists (false stops paying for it between sessions)"
+        type: boolean
+        default: true
+
+permissions:
+  id-token: write
+  contents: read
+
+# Never cancel a run in flight: a cancelled apply leaves half a stack and a
+# stale S3 lock file.
+concurrency:
+  group: infra
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-1
+  TF_IN_AUTOMATION: "true"
+  TF_VAR_vector_models: ${{ inputs.vector_models }}
+  TF_VAR_runner_enabled: ${{ inputs.runner_enabled }}
+  TF_VAR_tei_image: ${{ vars.TEI_IMAGE }}
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    # fv-gha trusts repo:...:environment:lab only; without this line the job
+    # cannot assume the role.
+    environment: lab
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Refuse without bootstrap variables
+        run: |
+          if [ -z "${{ vars.AWS_ROLE_ARN }}" ] || [ -z "${{ vars.TF_STATE_BUCKET }}" ]; then
+            echo "Set AWS_ROLE_ARN and TF_STATE_BUCKET repository variables first (infra/bootstrap outputs)." >&2
+            exit 1
+          fi
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          role-session-name: fv-infra-${{ github.run_id }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Private repo: printing the account here is how a wrong role gets caught.
+      - name: Which identity did we get
+        run: aws sts get-caller-identity --query Arn --output text
+
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: 1.15.2 # the local toolchain this root was validated with
+
+      - run: terraform init -input=false -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}"
+
+      # The runner owns the DynamoDB vector tables and the Qwen endpoint (no Terraform support);
+      # destroy removes them first so nothing keeps billing.
+      - name: Delete runner-owned resources before destroy
+        if: inputs.action == 'destroy'
+        run: |
+          set -euo pipefail
+          for t in $(aws dynamodb list-tables --query "TableNames[?starts_with(@,'fv-vec-')]" --output text); do
+            aws dynamodb delete-table --table-name "$t"; echo "deleted $t"
+          done
+          aws sagemaker delete-endpoint --endpoint-name fv-qwen 2>/dev/null || true
+          aws sagemaker delete-endpoint-config --endpoint-config-name fv-qwen 2>/dev/null || true
+          aws sagemaker delete-model --model-name fv-qwen 2>/dev/null || true
+
+      - name: terraform plan
+        if: inputs.action == 'plan'
+        run: |
+          terraform plan -input=false -out=terraform.tfplan
+          terraform show -no-color terraform.tfplan > plan.txt
+
+      - name: Upload the plan
+        if: inputs.action == 'plan'
+        uses: actions/upload-artifact@v7
+        with:
+          name: plan-${{ github.run_id }}
+          path: infra/plan.txt
+          retention-days: 7
+
+      - name: terraform apply
+        if: inputs.action == 'apply'
+        run: terraform apply -input=false -auto-approve
+
+      - name: terraform destroy
+        if: inputs.action == 'destroy'
+        run: terraform destroy -input=false -auto-approve

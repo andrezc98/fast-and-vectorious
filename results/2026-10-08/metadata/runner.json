@@ -1,0 +1,10 @@
+{
+  "collected_utc": "2026-10-09T03:27:29.971716Z",
+  "platform": "Linux-6.18.51-120.163.amzn2023.aarch64-aarch64-with-glibc2.34",
+  "python": "3.14.8",
+  "cpu": "8",
+  "mem": "total        used        free      shared  buff/cache   available\nMem:              30           0          28           0           2          30",
+  "instance_type": "m7g.2xlarge",
+  "az": "us-east-1a",
+  "packages": "boto3                1.43.109\nbotocore             1.43.109\nnumpy                2.5.3\nopensearch-py        3.2.0\npgvector             0.5.0\npsycopg              3.3.6"
+}

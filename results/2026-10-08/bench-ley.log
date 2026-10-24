@@ -1,0 +1,37 @@
+== ddb plain start 2026-10-08T19:31:51Z
+/home/ec2-user/results/2026-10-08/bench-ddb-ley-cohere-plain.csv
+EXIT_ddb_plain=0 end 2026-10-08T19:32:24Z
+== ddb filter start 2026-10-08T19:32:24Z
+/home/ec2-user/results/2026-10-08/bench-ddb-ley-cohere-filter.csv
+EXIT_ddb_filter=0 end 2026-10-08T19:32:58Z
+== ddb join start 2026-10-08T19:32:58Z
+/home/ec2-user/results/2026-10-08/bench-ddb-ley-cohere-join.csv
+EXIT_ddb_join=0 end 2026-10-08T19:33:44Z
+== s3v plain start 2026-10-08T19:33:44Z
+/home/ec2-user/results/2026-10-08/bench-s3v-ley-cohere-plain.csv
+EXIT_s3v_plain=0 end 2026-10-08T19:36:56Z
+== s3v filter start 2026-10-08T19:36:56Z
+/home/ec2-user/results/2026-10-08/bench-s3v-ley-cohere-filter.csv
+EXIT_s3v_filter=0 end 2026-10-08T19:40:07Z
+== s3v join start 2026-10-08T19:40:07Z
+/home/ec2-user/results/2026-10-08/bench-s3v-ley-cohere-join.csv
+EXIT_s3v_join=0 end 2026-10-08T19:43:29Z
+== aoss plain start 2026-10-08T19:43:29Z
+/home/ec2-user/results/2026-10-08/bench-aoss-ley-cohere-plain.csv
+EXIT_aoss_plain=0 end 2026-10-08T19:45:33Z
+== aoss filter start 2026-10-08T19:45:33Z
+/home/ec2-user/results/2026-10-08/bench-aoss-ley-cohere-filter.csv
+EXIT_aoss_filter=0 end 2026-10-08T19:46:56Z
+== aoss join start 2026-10-08T19:46:56Z
+/home/ec2-user/results/2026-10-08/bench-aoss-ley-cohere-join.csv
+EXIT_aoss_join=0 end 2026-10-08T19:48:30Z
+== aurora plain start 2026-10-08T19:48:30Z
+/home/ec2-user/results/2026-10-08/bench-aurora-ley-cohere-plain.csv
+EXIT_aurora_plain=0 end 2026-10-08T19:49:11Z
+== aurora filter start 2026-10-08T19:49:11Z
+/home/ec2-user/results/2026-10-08/bench-aurora-ley-cohere-filter.csv
+EXIT_aurora_filter=0 end 2026-10-08T19:49:42Z
+== aurora join start 2026-10-08T19:49:42Z
+/home/ec2-user/results/2026-10-08/bench-aurora-ley-cohere-join.csv
+EXIT_aurora_join=0 end 2026-10-08T19:49:47Z
+ALLDONE

@@ -1,0 +1,13 @@
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 0 min
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 1 min
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 2 min
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 3 min
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 4 min
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 5 min
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 6 min
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 7 min
+fv-qwen ml.g6.2xlarge|ml.g5.2xlarge|ml.g6e.xlarge|ml.g6.4xlarge: Creating after 8 min
+fv-qwen InService: [[{'InstanceType': 'ml.g6.2xlarge', 'CurrentInstanceCount': 1}]]
+{'model': 'qwen', 'n': 2000, 'recall_at_10': 0.946, 'mrr_at_10': 0.<acct>5555}
+BAKE_EXIT=0
+DOWN_EXIT=0

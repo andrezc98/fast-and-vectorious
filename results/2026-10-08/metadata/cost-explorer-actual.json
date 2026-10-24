@@ -1,0 +1,30 @@
+{
+  "collected_utc": "2026-10-09T03:28:34.552362+00:00",
+  "note": "Cost Explorer lags ~24 h; whole account (shared), not only the lab",
+  "by_service_2026-10-08": [
+    [
+      "Amazon Virtual Private Cloud",
+      0.39
+    ],
+    [
+      "EC2 - Other",
+      0.18
+    ],
+    [
+      "AWS Secrets Manager",
+      0.0173
+    ],
+    [
+      "AWS Key Management Service",
+      0.0082
+    ],
+    [
+      "AWS Lambda",
+      0.0075
+    ],
+    [
+      "AmazonCloudWatch",
+      0.0033
+    ]
+  ]
+}
