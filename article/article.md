@@ -62,7 +62,7 @@ Two of them, DynamoDB and S3 Vectors, have no servers or capacity to size. OpenS
 
 ## What you need
 
-![One EC2 runner in a VPC queries Aurora inside the VPC, DynamoDB over HTTPS, and S3 Vectors and OpenSearch Serverless through PrivateLink](img/01-architecture.png)
+![One EC2 runner in a VPC queries Aurora inside the VPC, DynamoDB through a gateway endpoint, S3 Vectors and OpenSearch Serverless through interface endpoints, and Bedrock through the internet gateway](img/01-architecture.png)
 
 - **An AWS account and a region with all four services.** I used us-east-1. The repo's `infra/` folder is Terraform for the VPC, an EC2 runner, the S3 vector bucket and indexes, the OpenSearch Serverless collection and an Aurora Serverless v2 cluster. DynamoDB vector tables are created from Python, because Terraform could not create the vector index when I built this.
 - **Python with** boto3 1.43.109, numpy, opensearch-py 3.2.0, psycopg 3.3.6 and the `pgvector` package. Those are the versions I ran; `runner/uv.lock` pins them all.
