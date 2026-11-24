@@ -1,0 +1,18 @@
+pgvector 0.8.2
+aurora_setlocal_ef40 benched
+SET LOCAL ef40 javascript 468 recall 0.957 p50 5.1
+aurora_setlocal_ef100 benched
+SET LOCAL ef100 javascript 468 recall 0.988 p50 5.9
+session after SET LOCAL runs: on auto
+aurora_all_default benched
+aurora_all_default 0.1-1% 375 1.0 3.2
+aurora_all_default 1-5% 645 1.0 15.8
+aurora_all_default <0.1% 255 1.0 0.9
+aurora_all_default >=5% 1725 1.0 68.8
+errors: {}
+aurora_all_forced_ef100 benched
+aurora_all_forced_ef100 0.1-1% 375 1.0 3.0
+aurora_all_forced_ef100 1-5% 645 0.975 2.7
+aurora_all_forced_ef100 <0.1% 255 1.0 0.9
+aurora_all_forced_ef100 >=5% 1725 0.971 2.5
+errors: {}

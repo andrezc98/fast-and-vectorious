@@ -1,0 +1,10 @@
+ddb create fv-vec-so-cohere: 0 s
+ddb load fv-vec-so-cohere: 870 s
+ddb create fv-vec-so-cohere-hash: 20 s
+ddb load fv-vec-so-cohere-hash: 864 s
+s3v load: 205 s
+aoss load: 296 s
+pgvector 0.8.2
+aurora load + index: 127 s
+ddb index ready fv-vec-so-cohere: 0 s
+ddb index ready fv-vec-so-cohere-hash: 0 s

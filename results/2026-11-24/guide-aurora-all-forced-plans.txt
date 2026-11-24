@@ -1,0 +1,35 @@
+== asp.net
+Limit  (cost=924.54..924.56 rows=10 width=20) (actual time=1.533..1.535 rows=10 loops=1)
+  Buffers: shared hit=1268
+  ->  Sort  (cost=924.54..925.19 rows=263 width=20) (actual time=1.533..1.533 rows=10 loops=1)
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=1268
+        ->  Index Scan using so_chunks_attr_idx on so_chunks  (cost=0.29..918.85 rows=263 width=20) (actual time=0.035..1.495 rows=250 loops=1)
+              Index Cond: (attr = 'asp.net'::text)
+              Buffers: shared hit=1268
+Planning:
+  Buffers: shared hit=1
+Planning Time: 0.094 ms
+Execution Time: 1.560 ms
+
+== python
+Limit  (cost=868.26..1287.83 rows=10 width=20) (actual time=1.818..1.893 rows=10 loops=1)
+  Buffers: shared hit=1778
+  ->  Index Scan using so_chunks_v_idx on so_chunks  (cost=868.26..405460.11 rows=9643 width=20) (actual time=1.817..1.891 rows=10 loops=1)
+        Filter: (attr = 'python'::text)
+        Rows Removed by Filter: 8
+        Buffers: shared hit=1778
+Planning:
+  Buffers: shared hit=1
+Planning Time: 0.070 ms
+Execution Time: 1.918 ms
+
+== javascript
+Limit  (cost=866.69..907.92 rows=10 width=20) (actual time=1.689..1.758 rows=10 loops=1)
+  Buffers: shared hit=1773
+  ->  Index Scan using so_chunks_js_hnsw on so_chunks  (cost=866.69..76056.74 rows=18237 width=20) (actual time=1.688..1.756 rows=10 loops=1)
+        Buffers: shared hit=1773
+Planning:
+  Buffers: shared hit=2
+Planning Time: 0.074 ms
+Execution Time: 1.773 ms

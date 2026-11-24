@@ -1,0 +1,31 @@
+ddb smoke ok
+ddb_hash smoke ok
+s3v smoke ok
+aoss smoke ok
+aurora smoke ok
+ddb benched
+ddb_hash benched
+s3v benched
+aoss benched
+aurora benched
+aoss 0.1-1% 375 1.0 23.4
+aoss 1-5% 645 1.0 24.3
+aoss <0.1% 255 1.0 22.7
+aoss >=5% 1725 1.0 29.4
+aurora 0.1-1% 375 1.0 2.9
+aurora 1-5% 645 1.0 15.4
+aurora <0.1% 255 1.0 0.6
+aurora >=5% 1725 1.0 67.5
+ddb 0.1-1% 375 0.802 19.8
+ddb 1-5% 645 0.942 29.3
+ddb <0.1% 255 0.317 9.6
+ddb >=5% 1725 0.997 33.4
+ddb_hash 0.1-1% 375 1.0 10.4
+ddb_hash 1-5% 645 0.996 17.4
+ddb_hash <0.1% 255 1.0 13.8
+ddb_hash >=5% 1725 0.998 23.1
+s3v 0.1-1% 375 0.933 61.8
+s3v 1-5% 645 0.961 62.4
+s3v <0.1% 255 0.985 62.4
+s3v >=5% 1725 0.954 62.2
+errors: {}
