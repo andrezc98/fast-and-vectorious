@@ -1,4 +1,8 @@
-"""Render the article's benchmark figures as warm, two-ink print graphics."""
+"""Render the article's benchmark figures as warm, two-ink print graphics.
+
+Same data as figures.py (imported from it); only the look differs. macOS only: uses the
+system Gill Sans and Futura fonts.
+"""
 
 import csv
 import json
@@ -12,10 +16,8 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Circle, Rectangle
 from matplotlib.ticker import NullLocator
 
-IMAGE_DIR = Path(__file__).resolve().parents[1]
-ARTICLE_DIR = IMAGE_DIR.parent
-RESULTS_DIR = ARTICLE_DIR.parent / "results" / "2026-10-09"
-FIX_DIR = ARTICLE_DIR.parent / "results" / "2026-11-24"
+from figures import ARTICLE_DIR, FIX_DIR, IMAGE_DIR, RESULTS_DIR, bucket_metrics, ladder_stats, load_points, plain_metrics
+
 PAPER = "#f5e8d1"
 TEXT = "#282726"
 SECONDARY = "#665e50"
@@ -30,16 +32,6 @@ STORES = {
     "s3v": ("S3 Vectors", SECONDARY),
 }
 OUTPUT_DIR = IMAGE_DIR / "v2"
-
-
-def load_points():
-    with (ARTICLE_DIR / "per-tag-so-filter.csv").open(newline="") as source:
-        return [
-            dict(store=row["store"], tag=row["tag"], rows=int(row["matching_rows"]),
-                 requests=int(row["requests"]), recall=float(row["mean_recall"]),
-                 latency=float(row["p50_ms"]))
-            for row in csv.DictReader(source)
-        ]
 
 
 def plot_points(ax, points, store, metric, color, *, cover=False):
@@ -131,36 +123,6 @@ def per_tag(points, heading):
     latency.set_title("p50 latency (ms), Aurora pgvector highlighted", loc="left", pad=25,
                       fontproperties=heading)
     save(fig, "03-per-tag.png")
-
-
-def cover(points, heading):
-    fig = new_figure(4.5)
-    recall, latency = fig.subplots(1, 2, sharex=True)
-    fig.subplots_adjust(left=0.085, right=0.95, bottom=0.23, top=0.80, wspace=0.27)
-    for ax in (recall, latency):
-        style_axes(ax)
-    recall.set_xscale("log")
-    recall.set_xlim(1, 20_000)
-    recall.set_xticks([1, 100, 10_000], labels=["1", "100", "10k"])
-    recall.xaxis.set_minor_locator(NullLocator())
-    recall.set_ylim(0, 1.05)
-    recall.set_yticks([0, 0.25, 0.5, 0.75, 1], labels=["0", "0.25", "0.5", "0.75", "1.0"])
-    latency.set_ylim(0, 90)
-    latency.set_yticks([0, 20, 40, 60, 80])
-    plot_points(recall, points, "ddb", "recall", BLUE, cover=True)
-    plot_points(latency, points, "aurora", "latency", ORANGE, cover=True)
-    recall.set_title("DynamoDB recall@10", loc="left", pad=10, fontproperties=heading)
-    latency.set_title("Aurora pgvector p50 latency (ms)", loc="left", pad=10, fontproperties=heading)
-    fig.supxlabel("rows matching the filter (log scale)", y=0.10, fontsize=9.5)
-    save(fig, "00-cover.png")
-
-
-def plain_metrics(store, suffix=""):
-    path = RESULTS_DIR / f"bench-{store}-so-cohere-plain{suffix}.csv"
-    with path.open(newline="") as source:
-        rows = [row for row in csv.DictReader(source) if row["ok"].lower() == "true"]
-    return (np.median([float(row["latency_ms"]) for row in rows]),
-            np.mean([float(row["recall"]) for row in rows]))
 
 
 def plain_search():
@@ -301,20 +263,6 @@ def filter_concept(heading):
     save(fig, "01b-filter.png")
 
 
-def bucket_metrics(path, store):
-    """Mean recall and p50 latency per filter-width bucket (same buckets as the article)."""
-    with (ARTICLE_DIR / "query-selectivity-so.csv").open(newline="") as source:
-        share = {int(r["qi"]): int(r["matching_rows"]) / 100_000 for r in csv.DictReader(source)}
-    groups = [[] for _ in range(4)]
-    with path.open(newline="") as source:
-        for row in csv.DictReader(source):
-            if row["store"] == store and row["ok"] == "True":
-                s = share[int(row["qi"])]
-                groups[(s >= 0.001) + (s >= 0.01) + (s >= 0.05)].append(row)
-    return ([np.mean([float(r["recall"]) for r in g]) for g in groups],
-            [np.median([float(r["latency_ms"]) for r in g]) for g in groups])
-
-
 def fixes(heading):
     ddb = FIX_DIR / "guide-filter-requests.csv"
     before_recall = bucket_metrics(ddb, "ddb")[0]
@@ -414,20 +362,7 @@ def test_loop(heading):
 
 def aurora_ladder(heading):
     """Step 7: p50 for the javascript queries after each change, from the second build."""
-    runs = [("guide-aurora-baseline", "no change", "bitmap scan on attr"),
-            ("guide-aurora-partial_hnsw", "partial HNSW index (ignored)", ""),
-            ("guide-aurora-full_hnsw_no_bitmap", "bitmap scans off (seq scan)", ""),
-            ("guide-aurora-partial_hnsw_forced-auto", "partial index, bitmap + seq off", ""),
-            ("guide-aurora-partial_hnsw_forced-force_custom_plan", "+ force_custom_plan",
-             "partial HNSW index"),
-            ("guide-aurora-partial_hnsw_forced-force_custom_plan-ef100", "+ ef_search 100",
-             "partial HNSW index")]
-    stats = []
-    for name, _, _ in runs:
-        with (FIX_DIR / f"{name}.csv").open(newline="") as source:
-            ok = [r for r in csv.DictReader(source) if r["ok"] == "True"]
-        stats.append((np.median([float(r["latency_ms"]) for r in ok]),
-                      np.mean([float(r["recall"]) for r in ok])))
+    stats = ladder_stats()
     fig = new_figure(3.3)
     ax = fig.subplots()
     fig.subplots_adjust(left=0.34, right=0.98, top=0.86, bottom=0.17)
@@ -438,13 +373,13 @@ def aurora_ladder(heading):
     ax.set_xticks([0, 20, 40, 60, 80])
     ax.set_xlabel("p50 latency (ms), 468 requests for the javascript tag", labelpad=6,
                   color=SECONDARY)
-    for y, ((ms, recall), (_, _, plan)) in enumerate(zip(stats, runs)):
+    for y, (_, ms, recall) in enumerate(stats):
         fast = ms < 10
         ax.barh(y, ms, height=0.55, color=ORANGE if fast else BLUE)
         ax.annotate(f"{ms:.1f} ms, recall {recall:.3f}", (ms, y), xytext=(5, 0),
                     textcoords="offset points", va="center",
                     color=TEXT if fast else SECONDARY)
-    ax.set_yticks(range(len(runs)), labels=[label for _, label, _ in runs])
+    ax.set_yticks(range(len(stats)), labels=[label for label, _, _ in stats])
     ax.invert_yaxis()
     ax.set_title("Aurora: what made the broad javascript filter fast", loc="left", pad=10,
                  fontproperties=heading)

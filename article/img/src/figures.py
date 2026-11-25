@@ -1,4 +1,7 @@
-"""Render the article's editorial benchmark figures."""
+"""Render the article's editorial benchmark figures.
+
+macOS only: uses ~/Library/Fonts/InterVariable.ttf. figures_v2.py reuses the data helpers here.
+"""
 
 import csv
 import json
@@ -147,10 +150,14 @@ def cover(points, heading):
     fig.savefig(IMAGE_DIR / "00-cover.png")
 
 
+def is_ok(row):
+    return row["ok"].lower() == "true"
+
+
 def plain_metrics(store, suffix=""):
     path = RESULTS_DIR / f"bench-{store}-so-cohere-plain{suffix}.csv"
     with path.open(newline="") as source:
-        rows = [row for row in csv.DictReader(source) if row["ok"].lower() == "true"]
+        rows = [row for row in csv.DictReader(source) if is_ok(row)]
     return (np.median([float(row["latency_ms"]) for row in rows]),
             np.mean([float(row["recall"]) for row in rows]))
 
@@ -300,9 +307,10 @@ def bucket_metrics(path, store):
     groups = [[] for _ in range(4)]
     with path.open(newline="") as source:
         for row in csv.DictReader(source):
-            if row["store"] == store and row["ok"] == "True":
+            if row["store"] == store and is_ok(row):
                 s = share[int(row["qi"])]
                 groups[(s >= 0.001) + (s >= 0.01) + (s >= 0.05)].append(row)
+    assert all(groups), f"empty bucket for {store} in {path.name}"
     return ([np.mean([float(r["recall"]) for r in g]) for g in groups],
             [np.median([float(r["latency_ms"]) for r in g]) for g in groups])
 
@@ -403,22 +411,29 @@ def test_loop(heading):
     fig.savefig(IMAGE_DIR / "08-test-loop.png")
 
 
+AURORA_RUNS = [("guide-aurora-baseline", "no change"),
+               ("guide-aurora-partial_hnsw", "partial HNSW index (ignored)"),
+               ("guide-aurora-full_hnsw_no_bitmap", "bitmap scans off (seq scan)"),
+               ("guide-aurora-partial_hnsw_forced-auto", "partial index, bitmap + seq off"),
+               ("guide-aurora-partial_hnsw_forced-force_custom_plan", "+ force_custom_plan"),
+               ("guide-aurora-partial_hnsw_forced-force_custom_plan-ef100", "+ ef_search 100")]
+
+
+def ladder_stats():
+    """(label, p50 ms, mean recall) per Step 7 change, javascript queries, second build."""
+    stats = []
+    for name, label in AURORA_RUNS:
+        with (FIX_DIR / f"{name}.csv").open(newline="") as source:
+            ok = [r for r in csv.DictReader(source) if is_ok(r)]
+        assert ok, f"no successful rows in {name}.csv"
+        stats.append((label, np.median([float(r["latency_ms"]) for r in ok]),
+                      np.mean([float(r["recall"]) for r in ok])))
+    return stats
+
+
 def aurora_ladder(heading):
     """Step 7: p50 for the javascript queries after each change, from the second build."""
-    runs = [("guide-aurora-baseline", "no change", "bitmap scan on attr"),
-            ("guide-aurora-partial_hnsw", "partial HNSW index (ignored)", ""),
-            ("guide-aurora-full_hnsw_no_bitmap", "bitmap scans off (seq scan)", ""),
-            ("guide-aurora-partial_hnsw_forced-auto", "partial index, bitmap + seq off", ""),
-            ("guide-aurora-partial_hnsw_forced-force_custom_plan", "+ force_custom_plan",
-             "partial HNSW index"),
-            ("guide-aurora-partial_hnsw_forced-force_custom_plan-ef100", "+ ef_search 100",
-             "partial HNSW index")]
-    stats = []
-    for name, _, _ in runs:
-        with (FIX_DIR / f"{name}.csv").open(newline="") as source:
-            ok = [r for r in csv.DictReader(source) if r["ok"] == "True"]
-        stats.append((np.median([float(r["latency_ms"]) for r in ok]),
-                      np.mean([float(r["recall"]) for r in ok])))
+    stats = ladder_stats()
     fig = new_figure(3.3)
     ax = fig.subplots()
     fig.subplots_adjust(left=0.34, right=0.98, top=0.86, bottom=0.17)
@@ -429,13 +444,13 @@ def aurora_ladder(heading):
     ax.set_xticks([0, 20, 40, 60, 80])
     ax.set_xlabel("p50 latency (ms), 468 requests for the javascript tag", labelpad=6,
                   color=SECONDARY)
-    for y, ((ms, recall), (_, _, plan)) in enumerate(zip(stats, runs)):
+    for y, (_, ms, recall) in enumerate(stats):
         fast = ms < 10
         ax.barh(y, ms, height=0.55, color=ORANGE if fast else GREY)
         ax.annotate(f"{ms:.1f} ms, recall {recall:.3f}", (ms, y), xytext=(5, 0),
                     textcoords="offset points", va="center",
                     color=TEXT if fast else SECONDARY)
-    ax.set_yticks(range(len(runs)), labels=[label for _, label, _ in runs])
+    ax.set_yticks(range(len(stats)), labels=[label for label, _, _ in stats])
     ax.invert_yaxis()
     ax.set_title("Aurora: what made the broad javascript filter fast", loc="left", pad=10,
                  fontproperties=heading)
