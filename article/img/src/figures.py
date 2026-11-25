@@ -348,7 +348,101 @@ def fixes(heading):
     fig.savefig(IMAGE_DIR / "06-fixes.png")
 
 
-def main():
+def buckets(heading):
+    """Step 1: how the 1,000 test queries spread over filter widths."""
+    with (ARTICLE_DIR / "query-selectivity-so.csv").open(newline="") as source:
+        rows = [(r["attr"], int(r["matching_rows"]) / 100_000) for r in csv.DictReader(source)]
+    names = ["under 0.1%", "0.1 to 1%", "1 to 5%", "5% or more"]
+    queries, tags = [0] * 4, [set() for _ in range(4)]
+    for tag, share in rows:
+        b = (share >= 0.001) + (share >= 0.01) + (share >= 0.05)
+        queries[b] += 1
+        tags[b].add(tag)
+    assert sum(queries) == 1000, queries
+    fig = new_figure(2.6)
+    ax = fig.subplots()
+    fig.subplots_adjust(left=0.16, right=0.97, top=0.80, bottom=0.2)
+    ax.tick_params(axis="y", length=0, pad=7, labelsize=9.5)
+    ax.tick_params(axis="x", color=GREY, width=0.8, length=3, pad=4, labelsize=9)
+    ax.spines["left"].set_visible(False)
+    ax.set_xlim(0, 780)
+    ax.set_xlabel("test queries (1,000 total)", labelpad=6, color=SECONDARY)
+    for y, (q, t) in enumerate(zip(queries, tags)):
+        ax.barh(y, q, height=0.55, color=BLUE if y == 0 else GREY)
+        ax.annotate(f"{q} queries, {len(t)} tags", (q, y), xytext=(5, 0),
+                    textcoords="offset points", va="center")
+    ax.set_yticks(range(4), labels=names)
+    ax.invert_yaxis()
+    ax.set_title("Share of the 100,000 rows that match each query's tag", loc="left", pad=10,
+                 fontproperties=heading)
+    fig.savefig(IMAGE_DIR / "07-buckets.png")
+
+
+def test_loop(heading):
+    """Overview of the test this guide builds, one box per step."""
+    steps = [("1", "Count rows\nper filter value"), ("2", "Exact answer\nkey (NumPy)"),
+             ("3", "Index and load\nfour stores"), ("4", "Same filtered\ntop-10 query"),
+             ("5", "Time requests,\none row each"), ("6", "Group recall and\nlatency by width")]
+    fig = new_figure(1.55)
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set(xlim=(0, 12), ylim=(0, 2.4))
+    ax.set_axis_off()
+    w, gap = 1.72, 0.3
+    for i, (n, text) in enumerate(steps):
+        x = 0.12 + i * (w + gap)
+        last = i == len(steps) - 1
+        ax.add_patch(FancyBboxPatch((x, 0.45), w, 1.5, boxstyle="round,pad=0,rounding_size=0.12",
+                                    facecolor="#dbe8f8" if last else "#f4f3f0",
+                                    edgecolor=BLUE if last else GREY, linewidth=0.9))
+        ax.text(x + 0.16, 1.68, f"Step {n}", fontproperties=heading, va="center",
+                color=BLUE if last else TEXT)
+        ax.text(x + 0.16, 1.0, text, va="center", fontsize=9, color=SECONDARY, linespacing=1.3)
+        if not last:
+            ax.annotate("", xy=(x + w + gap - 0.03, 1.2), xytext=(x + w + 0.03, 1.2),
+                        arrowprops=dict(arrowstyle="-|>", color="#9a9994", lw=0.9))
+    fig.savefig(IMAGE_DIR / "08-test-loop.png")
+
+
+def aurora_ladder(heading):
+    """Step 7: p50 for the javascript queries after each change, from the second build."""
+    runs = [("guide-aurora-baseline", "no change", "bitmap scan on attr"),
+            ("guide-aurora-partial_hnsw", "partial HNSW index (ignored)", ""),
+            ("guide-aurora-full_hnsw_no_bitmap", "bitmap scans off (seq scan)", ""),
+            ("guide-aurora-partial_hnsw_forced-auto", "partial index, bitmap + seq off", ""),
+            ("guide-aurora-partial_hnsw_forced-force_custom_plan", "+ force_custom_plan",
+             "partial HNSW index"),
+            ("guide-aurora-partial_hnsw_forced-force_custom_plan-ef100", "+ ef_search 100",
+             "partial HNSW index")]
+    stats = []
+    for name, _, _ in runs:
+        with (FIX_DIR / f"{name}.csv").open(newline="") as source:
+            ok = [r for r in csv.DictReader(source) if r["ok"] == "True"]
+        stats.append((np.median([float(r["latency_ms"]) for r in ok]),
+                      np.mean([float(r["recall"]) for r in ok])))
+    fig = new_figure(3.3)
+    ax = fig.subplots()
+    fig.subplots_adjust(left=0.34, right=0.98, top=0.86, bottom=0.17)
+    ax.tick_params(axis="y", length=0, pad=7, labelsize=9.5)
+    ax.tick_params(axis="x", color=GREY, width=0.8, length=3, pad=4, labelsize=9)
+    ax.spines["left"].set_visible(False)
+    ax.set_xlim(0, 125)
+    ax.set_xticks([0, 20, 40, 60, 80])
+    ax.set_xlabel("p50 latency (ms), 468 requests for the javascript tag", labelpad=6,
+                  color=SECONDARY)
+    for y, ((ms, recall), (_, _, plan)) in enumerate(zip(stats, runs)):
+        fast = ms < 10
+        ax.barh(y, ms, height=0.55, color=ORANGE if fast else GREY)
+        ax.annotate(f"{ms:.1f} ms, recall {recall:.3f}", (ms, y), xytext=(5, 0),
+                    textcoords="offset points", va="center",
+                    color=TEXT if fast else SECONDARY)
+    ax.set_yticks(range(len(runs)), labels=[label for _, label, _ in runs])
+    ax.invert_yaxis()
+    ax.set_title("Aurora: what made the broad javascript filter fast", loc="left", pad=10,
+                 fontproperties=heading)
+    fig.savefig(IMAGE_DIR / "09-aurora-ladder.png")
+
+
+def main(only=None):
     font = Path.home() / "Library/Fonts/InterVariable.ttf"
     font_manager.fontManager.addfont(font)
     mpl.rcParams.update({
@@ -360,20 +454,35 @@ def main():
         "xtick.direction": "out", "ytick.direction": "out",
         "figure.facecolor": "white", "axes.facecolor": "white",
     })
-    plain_search()
-    cold_start()
-    recall_concept()
+    if not only:
+        plain_search()
+        cold_start()
+        recall_concept()
     points = load_points()
     # Matplotlib selects the default weight when it opens a variable font.
     with TTFont(font) as inter, NamedTemporaryFile(suffix=".ttf") as semibold:
         instantiateVariableFont(inter, {"wght": 600}, inplace=True)
         inter.save(semibold.name)
         heading = font_manager.FontProperties(fname=semibold.name, size=10.5, weight="semibold")
+        if only:  # e.g. figures.py buckets test_loop: render just those
+            renderers = {"plain_search": plain_search, "cold_start": cold_start, "recall_concept": recall_concept,
+                         "per_tag": lambda: per_tag(points, heading), "cover": lambda: cover(points, heading), 
+                         **{n: (lambda f=globals()[n]: f(heading)) for n in
+                            ("filter_concept", "fixes", "buckets", "test_loop", "aurora_ladder")}}
+            for name in only:
+                if name not in renderers:
+                    raise SystemExit(f"unknown figure {name!r}; choose from {sorted(renderers)}")
+                renderers[name]()
+            return
         per_tag(points, heading)
         cover(points, heading)
         filter_concept(heading)
         fixes(heading)
+        buckets(heading)
+        test_loop(heading)
+        aurora_ladder(heading)
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1:])

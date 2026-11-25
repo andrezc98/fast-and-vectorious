@@ -25,7 +25,7 @@ This guide walks through the build so you can run the same check on your data: c
   - **Aurora (second build):** turning off bitmap and sequential scans and forcing custom plans let broad filters use the HNSW index, with `hnsw.ef_search` at 100. The broadest bucket went from 68.8 ms to 2.5 ms p50, at 0.971 recall instead of exact, and narrow filters stayed exact.
 
   ![Left: DynamoDB recall by filter width, inline filter against HASH partition key. Right: Aurora p50 by filter width, default against forced planner settings](img/06-fixes.png)
-- **Use it on your data:** count the rows behind each filter value before you test, then report recall and latency for your narrowest and broadest values next to the average. On my second corpus, Chilean law, no filter was narrow enough to show either effect.
+- **Use it on your data:** count the rows behind each filter value before you test, then report recall and latency for your narrowest and broadest values next to the average. My second corpus, Chilean law, filled only the two broad buckets: DynamoDB recall stayed at 0.999 or higher, and Aurora p50 rose from 1.8 to 4.8 ms.
 
 ## Background: vector search, recall and the four stores
 
@@ -418,7 +418,7 @@ Two tags show the extremes. `asp.net` matches 250 rows and appears in one query.
 
 What each store did:
 
-- **DynamoDB lost neighbors on narrow filters.** For tags matching under 0.1% of the rows, mean recall was 0.299. Some of those tags have fewer than 10 rows, so I checked the 62 queries with at least 10 matching rows separately: 0.323. The same `asp.net` query scored 0.9, 0.7 and 1.0 on its three passes, so one query also varies between runs. The AWS documentation says DynamoDB "[skips vectors that don't match your filter as it searches the index](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/VectorSearch.html)", and the search is approximate. I don't know why rare filters lose neighbors, but the fix below worked.
+- **DynamoDB lost neighbors on narrow filters.** For tags matching under 0.1% of the rows, mean recall was 0.299. Some of those tags have fewer than 10 rows, so I checked that bucket's 62 queries with at least 10 matching rows separately: 0.323. In the next bucket, one `asp.net` query scored 0.9, 0.7 and 1.0 on its three passes, so one query also varies between runs. The AWS documentation says DynamoDB "[skips vectors that don't match your filter as it searches the index](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/VectorSearch.html)", and the search is approximate. I don't know why rare filters lose neighbors, but the fix below worked.
 - **Aurora slowed down on broad filters.** Recall stayed at 1.000 while p50 went from 0.8 ms to 67.6 ms across the buckets. Raising `ef_search` did not change filtered queries: 46.14, 46.29 and 46.33 ms p50 at 40, 100 and 200. Step 7 shows why.
 - **OpenSearch and S3 Vectors changed least.** OpenSearch kept recall at about 1.0 while p50 rose from 24.5 to 33.8 ms. S3 Vectors stayed between 62.3 and 62.6 ms p50 in every bucket, with mean recall between 0.950 and 0.984.
 
